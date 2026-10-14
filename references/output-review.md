@@ -27,6 +27,8 @@ Read extracted text for missing content, accented characters, dates, duplicated 
 
 ## Delivery Record
 
+On an explicitly resumed legacy application, retain its recorded artifact layout and deliver the reviewed PDF/YAML from their original revision paths. The new company/role allocation and publish helper apply to new-layout applications only; do not migrate or relocate retained legacy outputs.
+
 Write supporting/verification.md with commands and actual results, the PDF and YAML revision reviewed, page count, images inspected, factual findings, and unresolved limitations. Mark each check passed, failed, or unavailable. After a content or design change, rerender into a new directory and repeat affected checks.
 
 After inspecting every image and the extracted text and comparing all claims to evidence, update that revision's review/review.json: set visual_review, factual_review and text_review to passed only for checks actually completed, and write review_notes describing actual findings and any limitations. Keep pending, failed or unavailable checks honest. Preserve the PDF/YAML hashes created by review_pdf.py; changed files require a fresh review, not replacement hashes in an old approval record. The editable YAML reviewed and delivered is render/cv.yaml, the exact normalized renderer input.

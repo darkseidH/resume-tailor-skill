@@ -42,6 +42,8 @@ design:
     degree_width: 2cm
   page:
     size: a4
+    show_top_note: false
+    show_footer: false
   templates:
     experience_entry:
       main_column: '**POSITION** | COMPANY

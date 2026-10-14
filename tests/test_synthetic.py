@@ -43,6 +43,13 @@ class SyntheticTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             build(self.output)
 
+    def test_fixtures_follow_existing_page_metadata_rule(self):
+        build(self.output)
+        for language in ('english', 'french'):
+            data = yaml.safe_load((self.revision_path(language) / 'cv.yaml').read_text(encoding='utf-8'))
+            self.assertIs(data['design']['page'].get('show_top_note'), False)
+            self.assertIs(data['design']['page'].get('show_footer'), False)
+
     def test_reordered_sections_keep_their_evidence(self):
         original_copy = shutil.copyfile
 
