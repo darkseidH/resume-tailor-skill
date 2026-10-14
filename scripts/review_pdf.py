@@ -1,6 +1,7 @@
 """Extract PDF text and page images into a fresh review directory."""
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -20,6 +21,12 @@ def review(pdf: Path, output: Path):
         for index, page in enumerate(document):
             page.get_pixmap(dpi=120).save(output / f"page-{index + 1}.png")
     result = {"pdf": str(pdf.resolve()), "pages": len(texts), "text_extracted": True, "visual_review": "pending", "factual_review": "pending"}
+    result["pdf_sha256"] = hashlib.sha256(pdf.read_bytes()).hexdigest()
+    source = pdf.parent / "cv.yaml"
+    if source.is_file():
+        result["yaml_sha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
+    result["text_review"] = "pending"
+    result["review_notes"] = ""
     (output / "review.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
     return result
 

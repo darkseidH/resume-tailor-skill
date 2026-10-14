@@ -1,10 +1,14 @@
 import json
+import hashlib
+import os
 import shutil
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-from scripts.application_artifacts import allocate, resume, revision
+from scripts.application_artifacts import allocate, resume, revision, publish
 
 
 class ApplicationArtifactTests(unittest.TestCase):
@@ -75,8 +79,69 @@ class ApplicationArtifactTests(unittest.TestCase):
         link = self.output / 'Company'
         try:
             link.symlink_to(outside, target_is_directory=True)
-        except OSError as error:
-            self.skipTest(f'Directory symlinks unavailable: {error}')
+        except OSError:
+            if os.name != 'nt':
+                raise
+            result = subprocess.run(['cmd', '/c', 'mklink', '/J', str(link), str(outside)], capture_output=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
         with self.assertRaises(ValueError):
             allocate(self.output, 'Company', 'Role')
         self.assertEqual(list(outside.iterdir()), [])
+
+    def reviewed_revision(self):
+        root = allocate(self.output, 'Company', 'Role')
+        rev = revision(root, 'en')
+        render = rev / 'render'
+        render.mkdir()
+        (render / 'cv.pdf').write_bytes(b'%PDF-1.7\nfictional test bytes')
+        (render / 'cv.yaml').write_text('cv: {name: Alex}', encoding='utf-8')
+        (rev / 'source.md').write_text('My name is Alex.', encoding='utf-8')
+        ledger = {'sources': {'s': 'source.md'}, 'facts': {'f': {'status': 'supported', 'source': 's', 'quote': 'My name is Alex.'}}, 'claims': {'/cv/name': ['f']}}
+        (rev / 'evidence.json').write_text(json.dumps(ledger), encoding='utf-8')
+        review = rev / 'review'
+        review.mkdir()
+        record = {'pdf': str(render / 'cv.pdf'), 'pdf_sha256': hashlib.sha256((render / 'cv.pdf').read_bytes()).hexdigest(), 'yaml_sha256': hashlib.sha256((render / 'cv.yaml').read_bytes()).hexdigest(), 'pages': 1, 'text_extracted': True, 'visual_review': 'passed', 'factual_review': 'passed', 'text_review': 'passed', 'review_notes': 'Simulated reviewer approval for unit testing only.'}
+        (review / 'extracted.txt').write_text('Alex', encoding='utf-8')
+        (review / 'page-1.png').write_bytes(b'unit-test-image')
+        (review / 'review.json').write_text(json.dumps(record), encoding='utf-8')
+        return root, rev, record
+
+    def test_publication_preserves_bytes_revisions_and_survives_cleanup(self):
+        root, rev, _ = self.reviewed_revision()
+        original = (rev / 'render/cv.pdf').read_bytes()
+        first = publish(root, rev, 'en')
+        second = publish(root, rev, 'en')
+        self.assertEqual(first.name, 'resume-en.pdf')
+        self.assertEqual(second.name, 'resume-en-v2.pdf')
+        shutil.rmtree(root / 'supporting')
+        self.assertEqual(first.read_bytes(), original)
+        self.assertEqual(second.read_bytes(), original)
+
+    def test_incomplete_or_stale_review_never_publishes(self):
+        root, rev, record = self.reviewed_revision()
+        for field, value in [('visual_review', 'pending'), ('factual_review', 'failed'), ('text_review', 'unavailable'), ('text_extracted', False), ('pdf_sha256', 'stale'), ('yaml_sha256', 'stale'), ('pdf', str(root / 'other.pdf')), ('pages', 0), ('review_notes', '')]:
+            with self.subTest(field=field):
+                changed = {**record, field: value}
+                (rev / 'review/review.json').write_text(json.dumps(changed), encoding='utf-8')
+                with self.assertRaises(ValueError):
+                    publish(root, rev, 'en')
+                self.assertFalse((root / 'resume-en.pdf').exists())
+
+    def test_failed_render_wrong_language_and_missing_evidence_never_publish(self):
+        root, rev, _ = self.reviewed_revision()
+        with self.assertRaises(ValueError):
+            publish(root, rev, 'fr')
+        (rev / 'evidence.json').unlink()
+        with self.assertRaises(OSError):
+            publish(root, rev, 'en')
+        (rev / 'render/cv.pdf').unlink()
+        with self.assertRaises(OSError):
+            publish(root, rev, 'en')
+        self.assertFalse((root / 'resume-en.pdf').exists())
+
+    def test_copy_failure_leaves_no_partial_finished_pdf(self):
+        root, rev, _ = self.reviewed_revision()
+        with patch('scripts.application_artifacts.shutil.copyfileobj', side_effect=OSError('Disk full')):
+            with self.assertRaisesRegex(OSError, 'Disk full'):
+                publish(root, rev, 'en')
+        self.assertFalse((root / 'resume-en.pdf').exists())
