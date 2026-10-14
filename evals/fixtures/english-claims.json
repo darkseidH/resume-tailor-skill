@@ -1,0 +1,146 @@
+{
+  "/cv/name": {
+    "value": "Alex Example",
+    "facts": [
+      "identity"
+    ]
+  },
+  "/cv/headline": {
+    "value": "Backend Developer",
+    "facts": [
+      "target"
+    ]
+  },
+  "/cv/location": {
+    "value": "Casablanca",
+    "facts": [
+      "identity"
+    ]
+  },
+  "/cv/email": {
+    "value": "alex@example.com",
+    "facts": [
+      "identity"
+    ]
+  },
+  "/cv/sections/Experience/0/company": {
+    "value": "Example Systems",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Experience/0/position": {
+    "value": "Developer",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Experience/0/start_date": {
+    "value": "2024-01",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Experience/0/end_date": {
+    "value": "2025-06",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Experience/0/highlights/0": {
+    "value": "Implemented a PostgreSQL stock lookup endpoint as part of a three-person team.",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Experience/0/highlights/1": {
+    "value": "Deployed the service to staging; production deployment was handled by a teammate.",
+    "facts": [
+      "deployment"
+    ]
+  },
+  "/cv/sections/Education/0/institution": {
+    "value": "Example University",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Education/0/area": {
+    "value": "Computer Science",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Education/0/degree": {
+    "value": "Bachelor",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Education/0/start_date": {
+    "value": "2020-09",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Education/0/end_date": {
+    "value": "2023-06",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Projects/0/name": {
+    "value": "Academic reporting project",
+    "facts": [
+      "project"
+    ]
+  },
+  "/cv/sections/Projects/0/highlights/0": {
+    "value": "Built SQL reports for an academic inventory dataset.",
+    "facts": [
+      "project"
+    ]
+  },
+  "/cv/sections/Skills/0/label": {
+    "value": "Development",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Skills/0/details": {
+    "value": "Python, SQL, PostgreSQL",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Languages/0/label": {
+    "value": "French",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Languages/0/details": {
+    "value": "Fluent",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Languages/1/label": {
+    "value": "English",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Languages/1/details": {
+    "value": "Professional working proficiency",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Summary/0": {
+    "value": "Developer with Python, SQL and PostgreSQL experience implementing a stock lookup endpoint within a three-person team.",
+    "facts": [
+      "role"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "sources": {
+    "experience-notes": "sources/experience.md"
+  },
+  "facts": {
+    "fact-stock-endpoint": {
+      "status": "supported",
+      "source": "experience-notes",
+      "quote": "I implemented the stock lookup endpoint using PostgreSQL as part of a team."
+    }
+  },
+  "claims": {
+    "/cv/sections/Experience/0/highlights/0": ["fact-stock-endpoint"]
+  }
+}

@@ -1,0 +1,43 @@
+# Tailor a Truthful CV
+
+After reviewing the match analysis, select language and template from saved preferences or ask, and choose substantive supported content from the full profile. Prepare provisional bullets in the selected language, then complete [quantification review](quantification.md) before final CV generation. Use only supported, accepted metric proposals; explicit skips or deferrals use qualitative alternatives. If translation or later editing materially changes an accepted metric, its scope, or assumptions, present it again. Use the full profile as the content inventory; use the job offer to prioritize supported content, not as a whitelist. Preserve substantive employment history; shorten less relevant descriptions before removing whole roles. Explain material omissions in tailoring decisions. Build a complete professional narrative before trimming: retain meaningful responsibilities, professional projects, tools, scope, and supported outcomes even when they are not exact job keywords. Prefer an additional readable page to deleting substantive evidence; never add filler merely to fill space.
+
+## Headline and Summary
+
+Include a concise, role-specific `cv.headline` beneath the candidate’s name. Describe the target function using supported skills and an appropriate level; a target headline does not change past job titles or establish a qualification. For example, “Data Analyst | SQL · Power BI” requires evidence for those skills. Avoid unsupported seniority, credentials, years, or metrics. Include a short professional summary (usually 2–4 lines) explaining the candidate’s professional focus, relevant experience, strongest supported tools or methods, and contribution to the target role. Make it specific to the profile rather than a list of generic traits. Do not infer years of experience from overlapping roles. Record the headline’s supporting facts and target-role rationale in tailoring.md and the evidence ledger.
+
+## Experience and Project Placement
+
+Integrate professional projects into the corresponding employer/role entry in Experience or Expérience professionnelle. Present the project context and personal contribution in that role’s highlights, preserving employer, actual title, dates, team context, and outcomes. Do not duplicate the same work in a separate professional-project section. Independent paid client work may be a distinct freelance experience entry when supported. If the employer or role association is unclear, ask rather than inventing one.
+
+Reserve a separate Projects or Projets section for academic, personal, or open-source work, with explicit provenance. Reorder highlights by relevance and prioritize accurate job terminology, while keeping the employment chronology understandable.
+
+## Experience Layout and Bullet Writing
+
+Use a consistent role header: **Job Title | Company — Location**, followed by **Month Year – Month Year/Present**. Group these details visually using the selected template’s experience entry fields; preserve readable text extraction rather than forcing a decorative one-line layout. Include location only when confirmed, and use Present only for a confirmed ongoing role. Apply the title-first template override in [rendering.md](rendering.md). Default to reverse chronological experience: confirmed ongoing roles first, then latest confirmed end date, using start date to break ties. Keep overlapping roles explicit, and retain separate internship and employment entries even at the same employer when their titles or scope differ. Ask about missing or conflicting dates before placing a role; never infer Present. Prioritize relevant achievements within each role.
+
+Aim for 3–6 distinct, substantive bullets for each main role when the evidence supports them. Shorter or less relevant roles may need fewer. Explain what the candidate actually did, the system/customer/business context, and the contribution or result. Incorporate professional project details in these bullets rather than reducing an entire role to a technology list. If a central role has too little evidence, ask one focused question about its work, scope, or outcome before expanding it. Never split one fact into repetitive bullets to reach a count.
+
+Use **Action + Context + Result**: start with a precise action verb, describe the task or problem and relevant tools/methods, then state a supported outcome. A deliverable or confirmed scope can stand in for an unavailable business metric. Avoid passive openings such as “Responsible for” and generic claims such as “improved efficiency” without evidence. Preserve team contributions and actual ownership; participation does not become leadership.
+
+Use numbers only with traceable inputs and context under [quantification review](quantification.md), including units, timeframe, baseline, and attribution where relevant. Grounded calculations and user-confirmed approximations are allowed after review; preserve their uncertainty. Never invent savings, percentages, volumes, or headcount to strengthen a bullet. Without measured impact, describe the concrete deliverable and confirmed purpose, without asserting an unverified benefit or causal relationship.
+
+For example, source evidence of an endpoint contribution in a three-person team supports “Implemented a PostgreSQL stock lookup endpoint within a three-person team.” It does not support “Led API development, cutting lookup time by 40%.” Translate the same structure naturally into French, for example “Développé un point d’accès de consultation des stocks avec PostgreSQL au sein d’une équipe de trois personnes.”
+
+## Languages and Localization
+
+Include every confirmed spoken language from the full mapped profile, including French and Arabic when supported, even if the offer does not mention them. Keep a dedicated Languages section in English and Langues in French. Job relevance may affect order, not inclusion; omit a confirmed language only at the user’s explicit request and record that decision. Preserve supported proficiency without inventing CEFR equivalences. If a language is confirmed but its level is unknown, list it without a level or ask when consequential. CV output language is independent of the candidate’s spoken-language inventory.
+
+English and French must read naturally, not as literal translations. Translate descriptions and section labels, preserve proper names and truthful credentials, and avoid assigning an unconfirmed degree equivalence. Use A4 classic initially with `design.entries.degree_width: 2cm` to fit longer degree labels; inspect the resulting page rather than assuming this works for all labels.
+
+## Truthful Wording and Application Record
+
+Use terminology from the offer only when the facts support it. Keep role titles, dates, qualifications, and project provenance accurate. Distinguish implementing a component, contributing to a system, leading work, and deploying to staging or production. Use measured, derived, or approximate outcomes only under the evidence and user-validation rules in [quantification review](quantification.md). Otherwise use a concrete qualitative result.
+
+Reuse the private application directory allocated during job intake. Save match.md, tailoring.md, evidence.json and cv.yaml there alongside its existing job.md and answers.md; preserve the original job snapshot and saved decisions. Create new render/review revision subdirectories rather than another application root, and retain earlier artifact revisions. Snapshot only the mapped evidence needed for this application under sources/. Treat profile files as canonical; the YAML is a derived presentation.
+
+## Evidence Ledger
+
+Use [the ledger example](../templates/evidence.json) and [the data contract](data-contracts.md). Each scalar value under cv, including the headline, dates, contact fields and skills, needs a JSON Pointer entry in `claims`. Every claim points to supported facts whose excerpts exist in private source snapshots. A job title supports target-role intent, not candidate capability: cite profile evidence for skills and seniority in the headline. Translate or combine facts with clear reasoning in tailoring.md. This ledger establishes traceability, not semantic truth: the agent must manually compare every claim to its evidence.
+
+Run `uv run --locked python scripts/check_evidence.py cv.yaml evidence.json` from the skill directory before rendering, supplying application paths as needed. Resolve missing coverage, unsupported facts, changed excerpts and bad references. Then use [rendering.md](rendering.md) and [output-review.md](output-review.md). Do not add internal IDs or match notes to the candidate-facing CV.

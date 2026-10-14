@@ -1,0 +1,56 @@
+cv:
+  name: Alex Example
+  headline: Développeur backend
+  location: Casablanca
+  email: alex@example.com
+  sections:
+    Profil:
+    - Développeur utilisant Python, SQL et PostgreSQL pour réaliser un point d’accès
+      de consultation des stocks au sein d’une équipe de trois personnes.
+    Expérience professionnelle:
+    - company: Example Systems
+      position: Développeur
+      start_date: 2024-01
+      end_date: 2025-06
+      highlights:
+      - Réalisation d’un point d’accès de consultation des stocks avec PostgreSQL
+        au sein d’une équipe de trois personnes.
+      - Déploiement du service en préproduction ; mise en production assurée par un
+        collègue.
+    Formation:
+    - institution: Example University
+      area: Informatique
+      degree: Licence
+      start_date: 2020-09
+      end_date: 2023-06
+    Projets:
+    - name: Projet universitaire de reporting
+      highlights:
+      - Création de rapports SQL à partir d’un jeu de données universitaire sur les
+        stocks.
+    Compétences:
+    - label: Développement
+      details: Python, SQL, PostgreSQL
+    Langues:
+    - label: Français
+      details: Courant
+    - label: Anglais
+      details: Usage professionnel
+design:
+  theme: classic
+  entries:
+    degree_width: 2cm
+  page:
+    size: a4
+  templates:
+    experience_entry:
+      main_column: '**POSITION** | COMPANY
+
+        SUMMARY
+
+        HIGHLIGHTS'
+      date_and_location_column: 'LOCATION
+
+        DATE'
+locale:
+  language: french

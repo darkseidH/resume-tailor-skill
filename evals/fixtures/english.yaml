@@ -1,0 +1,53 @@
+cv:
+  name: Alex Example
+  headline: Backend Developer
+  location: Casablanca
+  email: alex@example.com
+  sections:
+    Summary:
+    - Developer with Python, SQL and PostgreSQL experience implementing a stock lookup
+      endpoint within a three-person team.
+    Experience:
+    - company: Example Systems
+      position: Developer
+      start_date: 2024-01
+      end_date: 2025-06
+      highlights:
+      - Implemented a PostgreSQL stock lookup endpoint as part of a three-person team.
+      - Deployed the service to staging; production deployment was handled by a teammate.
+    Education:
+    - institution: Example University
+      area: Computer Science
+      degree: Bachelor
+      start_date: 2020-09
+      end_date: 2023-06
+    Projects:
+    - name: Academic reporting project
+      highlights:
+      - Built SQL reports for an academic inventory dataset.
+    Skills:
+    - label: Development
+      details: Python, SQL, PostgreSQL
+    Languages:
+    - label: French
+      details: Fluent
+    - label: English
+      details: Professional working proficiency
+design:
+  theme: classic
+  entries:
+    degree_width: 2cm
+  page:
+    size: a4
+  templates:
+    experience_entry:
+      main_column: '**POSITION** | COMPANY
+
+        SUMMARY
+
+        HIGHLIGHTS'
+      date_and_location_column: 'LOCATION
+
+        DATE'
+locale:
+  language: english

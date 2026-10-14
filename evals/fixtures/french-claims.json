@@ -1,0 +1,146 @@
+{
+  "/cv/name": {
+    "value": "Alex Example",
+    "facts": [
+      "identity"
+    ]
+  },
+  "/cv/headline": {
+    "value": "Développeur backend",
+    "facts": [
+      "target"
+    ]
+  },
+  "/cv/location": {
+    "value": "Casablanca",
+    "facts": [
+      "identity"
+    ]
+  },
+  "/cv/email": {
+    "value": "alex@example.com",
+    "facts": [
+      "identity"
+    ]
+  },
+  "/cv/sections/Expérience professionnelle/0/company": {
+    "value": "Example Systems",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Expérience professionnelle/0/position": {
+    "value": "Développeur",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Expérience professionnelle/0/start_date": {
+    "value": "2024-01",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Expérience professionnelle/0/end_date": {
+    "value": "2025-06",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Expérience professionnelle/0/highlights/0": {
+    "value": "Réalisation d’un point d’accès de consultation des stocks avec PostgreSQL au sein d’une équipe de trois personnes.",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Expérience professionnelle/0/highlights/1": {
+    "value": "Déploiement du service en préproduction ; mise en production assurée par un collègue.",
+    "facts": [
+      "deployment"
+    ]
+  },
+  "/cv/sections/Formation/0/institution": {
+    "value": "Example University",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Formation/0/area": {
+    "value": "Informatique",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Formation/0/degree": {
+    "value": "Licence",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Formation/0/start_date": {
+    "value": "2020-09",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Formation/0/end_date": {
+    "value": "2023-06",
+    "facts": [
+      "education"
+    ]
+  },
+  "/cv/sections/Projets/0/name": {
+    "value": "Projet universitaire de reporting",
+    "facts": [
+      "project"
+    ]
+  },
+  "/cv/sections/Projets/0/highlights/0": {
+    "value": "Création de rapports SQL à partir d’un jeu de données universitaire sur les stocks.",
+    "facts": [
+      "project"
+    ]
+  },
+  "/cv/sections/Compétences/0/label": {
+    "value": "Développement",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Compétences/0/details": {
+    "value": "Python, SQL, PostgreSQL",
+    "facts": [
+      "role"
+    ]
+  },
+  "/cv/sections/Langues/0/label": {
+    "value": "Français",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Langues/0/details": {
+    "value": "Courant",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Langues/1/label": {
+    "value": "Anglais",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Langues/1/details": {
+    "value": "Usage professionnel",
+    "facts": [
+      "languages"
+    ]
+  },
+  "/cv/sections/Profil/0": {
+    "value": "Développeur utilisant Python, SQL et PostgreSQL pour réaliser un point d’accès de consultation des stocks au sein d’une équipe de trois personnes.",
+    "facts": [
+      "role"
+    ]
+  }
+}

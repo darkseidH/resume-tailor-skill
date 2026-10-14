@@ -1,0 +1,15 @@
+[project]
+name = "resume-tailor-skill"
+version = "0.1.0"
+description = "Evidence-based resume tailoring with RenderCV"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pymupdf==1.26.5",
+    "pypdf==6.20.1",
+    "pyyaml==6.0.3",
+    "rendercv[full]==2.8",
+]
+
+[tool.uv]
+package = false

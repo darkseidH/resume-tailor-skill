@@ -1,0 +1,25 @@
+# Private candidate sources, mappings, application records, and local evaluations
+/.local/
+/.local-*/
+/private/
+/applications/
+
+# Local environments and secrets
+/.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+
+# Disposable tool caches, build output, and local editor settings
+/.uv-cache/
+/.pytest_cache/
+/.ruff_cache/
+/build/
+/dist/
+/.idea/
+/.codegraph/
+.DS_Store
+Thumbs.db
+tasks/
