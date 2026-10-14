@@ -1,5 +1,7 @@
 # Assess a Job Against Evidence
 
+For a new application, read supporting/job.md and save the report as supporting/match.md and clarification answers as supporting/answers.md under the recorded company/role root. Preserve the original job and existing decisions on resume. Follow [the storage contract](data-contracts.md#application-record-contract); legacy resumes keep their original layout and missing supporting state requires recovery before analysis.
+
 Preserve the full supplied job text before interpretation. Extract atomic requirements with IDs; distinguish required from preferred and retain qualifiers such as production use, years, proficiency, location, and eligibility. Mark unstated details unknown rather than inferring them.
 
 Compare each requirement with the complete profile, not only the last CV. Use the classifications in [data-contracts.md](data-contracts.md). Cite fact IDs and their source references. Transferable experience supports a partial match with a specific explanation; keyword overlap alone does not prove a strong match. A criterion needing a qualification or eligibility condition cannot be overridden by technical fit.

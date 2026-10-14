@@ -2,7 +2,11 @@
 
 Application root and resume record:
 
-Confirmed language and template (preference/answer reference):
+Record location: supporting/tailoring.md for new applications; retain legacy layout on resume.
+
+Confirmed language(s) and template (preference/answer reference):
+
+Per-language revision paths, final PDF paths and reviewed editable YAML paths:
 
 Provisional roles/projects selected before quantification:
 
@@ -37,4 +41,4 @@ State what remains unknown, which unsupported claims were omitted, and practical
 
 ## Verification
 
-Link the reviewed PDF/YAML revision and verification.md. Record user review status without assuming approval.
+Link each reviewed PDF/YAML revision and supporting/verification.md. Record user review status without assuming approval. Explain that manual supporting deletion removes editable sources, evidence and resume state while preserving delivered PDFs.

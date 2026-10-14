@@ -1,5 +1,7 @@
 # Persist Approved Profile Enrichment
 
+For new applications, answers, proposals, before-state snapshots and update results belong under supporting/ in the recorded company/role root. Mapped canonical profile sources must stay outside that removable folder. Profile-only onboarding keeps its separate private record. On legacy resume, retain the original record layout; missing supporting state requires recovery, not inferred approvals. Follow [the storage contract](data-contracts.md#application-record-contract).
+
 Confirmed answers support the current application. Saving them to canonical files is a separate action requiring the user's approval of the proposed edit.
 
 ## Required Trigger and Completion

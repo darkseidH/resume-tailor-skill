@@ -1,5 +1,7 @@
 # Quantification Review Before Generation
 
+For new applications, save proposals and decisions in supporting/tailoring.md and answers in supporting/answers.md under the recorded root. Record language-specific wording for each requested language without repeating already-confirmed factual questions. Keep each final language's claim ledger and snapshots in its own fresh revision. Retain legacy layout on resume; recover missing supporting state before relying on earlier decisions.
+
 Run this checkpoint after job-match review, language/template confirmation, and provisional selection of substantive roles and projects, but before final CV generation/rendering. Review the selected contributions and propose exact bullets in the chosen CV language. Use the full profile and saved answers; do not ask again about metrics already confirmed with the same context. Present useful opportunities even when no business-impact figures are available.
 
 ## Discover Defensible Metrics
