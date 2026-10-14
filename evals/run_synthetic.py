@@ -10,20 +10,27 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.check_evidence import leaves
+from scripts.application_artifacts import allocate, revision
 
 
-def build(output: Path):
+def build(output: Path, languages=("en", "fr")):
+    if not languages or any(language not in {"en", "fr"} for language in languages) or len(set(languages)) != len(languages):
+        raise ValueError("Choose en, fr, or both without duplicates")
     fixtures = Path(__file__).parent / "fixtures"
     output.mkdir(parents=True, exist_ok=False)
-    for language in ("english", "french"):
-        application = output / language
+    # Explicitly fictional employer label; fixtures never substitute for real offers.
+    root = allocate(output, "Fictional Employer", "Backend Developer")
+    supporting = root / "supporting"
+    for name in ("job.md", "answers.md"):
+        shutil.copyfile(fixtures / name, supporting / name)
+    for code in languages:
+        language = {"en": "english", "fr": "french"}[code]
+        application = revision(root, code)
         sources = application / "sources"
         sources.mkdir(parents=True)
         for name in ("profile.md", "answers.md", "job.md"):
             shutil.copyfile(fixtures / name, sources / name)
         shutil.copyfile(fixtures / f"{language}.yaml", application / "cv.yaml")
-        shutil.copyfile(fixtures / "job.md", application / "job.md")
-        shutil.copyfile(fixtures / "answers.md", application / "answers.md")
         excerpts = {
             "identity": ("profile", "My name is Alex Example. I live in Casablanca. My email is alex@example.com."),
             "target": ("job", "Fictional Backend Developer Offer"),
@@ -49,12 +56,14 @@ def build(output: Path):
             claims[pointer] = claim["facts"]
         ledger = {"sources": {s: f"sources/{s}.md" for s in ("profile", "answers", "job")}, "facts": facts, "claims": claims}
         (application / "evidence.json").write_text(json.dumps(ledger, indent=2, ensure_ascii=False), encoding="utf-8")
-        (application / "match.md").write_text("# Synthetic match review\n\nPython, SQL, PostgreSQL and API component development: strong (profile, role). Reporting: partial (academic project). French: strong (languages). Docker: initially unknown, then confirmed gap (answer-docker). Production deployment: initially unknown, then staging-only evidence (answer-deployment). Canadian authorization: confirmed mismatch (profile eligibility).\n\nApply to roles supporting sponsorship; learn Docker for future opportunities. No new qualification is added to the CV.\n", encoding="utf-8")
-        (application / "tailoring.md").write_text("# Synthetic tailoring decisions\n\nPrioritized backend endpoint contribution and SQL. Headline describes the target role, not a past employment title. Preserved team context, staging-only deployment, academic provenance, languages and full synthetic history. Omitted Docker and unmeasured metrics. French credential wording is explicitly supported by the fictional source. These are curated fixture outputs, not independent model results.\n", encoding="utf-8")
+        (supporting / "match.md").write_text("# Synthetic match review\n\nPython, SQL, PostgreSQL and API component development: strong (profile, role). Reporting: partial (academic project). French: strong (languages). Docker: initially unknown, then confirmed gap (answer-docker). Production deployment: initially unknown, then staging-only evidence (answer-deployment). Canadian authorization: confirmed mismatch (profile eligibility).\n\nApply to roles supporting sponsorship; learn Docker for future opportunities. No new qualification is added to the CV.\n", encoding="utf-8")
+        (supporting / "tailoring.md").write_text("# Synthetic tailoring decisions\n\nPrioritized backend endpoint contribution and SQL. Headline describes the target role, not a past employment title. Preserved team context, staging-only deployment, academic provenance, languages and full synthetic history. Omitted Docker and unmeasured metrics. French credential wording is explicitly supported by the fictional source. These are curated fixture outputs, not independent model results.\n", encoding="utf-8")
     return output
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
-    print(build(parser.parse_args().output))
+    parser.add_argument("--languages", nargs="+", choices=("en", "fr"), default=["en", "fr"])
+    args = parser.parse_args()
+    print(build(args.output, args.languages))

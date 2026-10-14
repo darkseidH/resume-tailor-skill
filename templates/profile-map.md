@@ -7,6 +7,8 @@ Copy into your private workspace when ready to save a map. Paths below illustrat
 - Workspace root: `.` (relative to this map)
 - Application output directory: `applications/` (relative to this map)
 
+New applications use `<application-output>/<company>/<role>/`, containing requested-language final PDFs and `supporting/` for YAML and all other generated artifacts. Existing applications retain their recorded layout on explicit resume. Canonical source paths must stay outside removable supporting directories.
+
 ## Sources
 
 | Stable source ID | Path relative to this map, or absolute path | Coverage |
@@ -19,7 +21,7 @@ One source may cover all areas. Remove unused rows and record actual coverage ra
 
 ## Preferences
 
-- CV language: ask if unknown (English or French).
+- CV language: ask if unknown (English, French, or both).
 - Template: ask if unknown; initial rendering uses classic A4.
 
 ## Mapping Review
