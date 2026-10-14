@@ -7,15 +7,15 @@ Run from the repository root with the pinned Python environment:
 ```powershell
 rtk proxy uv run --locked python -m unittest discover -s tests -v
 rtk proxy uv run --locked python evals/run_synthetic.py .local/synthetic-new
-rtk proxy uv run --locked python scripts/check_evidence.py .local/synthetic-new/english/cv.yaml .local/synthetic-new/english/evidence.json
-rtk proxy uv run --locked python scripts/check_evidence.py .local/synthetic-new/french/cv.yaml .local/synthetic-new/french/evidence.json
-rtk proxy uv run --locked python scripts/render_cv.py .local/synthetic-new/english/cv.yaml .local/synthetic-new/english/render-v1
-rtk proxy uv run --locked python scripts/render_cv.py .local/synthetic-new/french/cv.yaml .local/synthetic-new/french/render-v1
-rtk proxy uv run --locked python scripts/review_pdf.py .local/synthetic-new/english/render-v1/cv.pdf --output .local/synthetic-new/english/review-v1
-rtk proxy uv run --locked python scripts/review_pdf.py .local/synthetic-new/french/render-v1/cv.pdf --output .local/synthetic-new/french/review-v1
+rtk proxy uv run --locked python scripts/check_evidence.py ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/en-v1/cv.yaml" ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/en-v1/evidence.json"
+rtk proxy uv run --locked python scripts/check_evidence.py ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/fr-v1/cv.yaml" ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/fr-v1/evidence.json"
+rtk proxy uv run --locked python scripts/render_cv.py ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/en-v1/cv.yaml" ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/en-v1/render"
+rtk proxy uv run --locked python scripts/render_cv.py ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/fr-v1/cv.yaml" ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/fr-v1/render"
+rtk proxy uv run --locked python scripts/review_pdf.py ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/en-v1/render/cv.pdf" --output ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/en-v1/review"
+rtk proxy uv run --locked python scripts/review_pdf.py ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/fr-v1/render/cv.pdf" --output ".local/synthetic-new/Fictional Employer/Backend Developer/supporting/revisions/fr-v1/review"
 ```
 
-Use a new root on each run. Inspect both languages' images and extracted text. The curated fixture application is reproducible mechanical verification, not an independent AI behavioral evaluation.
+Use a new root on each run. Add `--languages en` or `--languages fr` to the synthetic builder for single-language scenarios; its default creates both under one application. Keep all render/review outputs inside supporting. Follow references/output-review.md to record genuine review decisions and publish PDFs only afterward. See artifact-storage.md for storage-specific observations. Inspect both languages' images and extracted text. The curated fixture application is reproducible mechanical verification, not an independent AI behavioral evaluation.
 
 ## Current Remediation Checks
 

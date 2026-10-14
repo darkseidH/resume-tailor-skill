@@ -40,3 +40,18 @@ Also test a zero baseline, a three-person team without contribution shares, and 
 ## Mechanical Verification
 
 Map every CV scalar to evidence snapshots, run check_evidence.py, render with the classic A4 design, then inspect every page and extracted text. Record commands, artifacts, language findings and actual limitations. The built-in YAML fixtures demonstrate this wording; they are curated synthetic outputs, not independent model-generation results.
+
+## Artifact Delivery Scenarios
+
+- Request English only, French only, then both. Each application exposes only
+  requested-language final PDFs; bilingual revisions share original job/answers.
+- Verify role-folder children are PDFs plus supporting; YAML, Typst, logs,
+  Markdown, snapshots, extracted text and page images remain inside supporting.
+- Failed rendering, pending/unavailable review, or changed PDF/YAML cannot publish.
+  New rendering/review attempts use fresh revisions, preserving earlier outputs.
+- Review every page and claim, record actual passed checks, publish, and compare
+  delivered bytes to the reviewed PDF. Repeated delivery preserves older PDFs.
+- Delivery links include corresponding render/cv.yaml under supporting, match
+  findings, limitations and profile-update status. No ATS/hiring guarantee.
+- In a disposable fictional copy, remove supporting: finished PDFs still open,
+  canonical sources stay unchanged, and loss of editable/evidence state is clear.

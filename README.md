@@ -14,6 +14,40 @@ You do not need to create a job.md file. The agent creates it for each applicati
 
 Example: “Use $resume-tailor-skill with my profile map at `.local/profile-map.md`. Analyze this job offer, clarify uncertainties, and tailor a French CV.”
 
+## Generated Files
+
+The mapped application output directory contains company folders, then role folders:
+
+```text
+applications/
+  Example Company/
+    Data Analyst/
+      resume-en.pdf
+      resume-fr.pdf
+      supporting/
+        application.json
+        job.md
+        answers.md
+        match.md
+        tailoring.md
+        verification.md
+        revisions/
+          en-v1/  # YAML, evidence, sources, render/ and review/
+          fr-v1/
+```
+
+Only requested languages are generated. Finished PDFs appear after factual,
+visual and text review. Further deliveries use unused names such as
+resume-en-v2.pdf; a separate application to the same role gets a numbered role
+folder. Explicit resume reuses the recorded root, and older applications retain
+their original layout.
+
+Editable YAML and every other generated artifact stay under supporting/.
+Delivery links include the exact rendered YAML at revisions/LANGUAGE-vN/render/cv.yaml.
+You can delete supporting/ afterward: PDFs remain readable, but editable files,
+evidence and resume history are lost. Cleanup is manual; canonical profile sources
+stay separate.
+
 ## Install
 
 Extract the distribution's `resume-tailor-skill` directory into your agent's skills directory. For Codex, the default personal location is `~/.codex/skills/resume-tailor-skill`. The package includes SKILL.md, references, templates, helper scripts, metadata and pinned dependencies. Install into the chosen location deliberately; the build process does not modify your global skill collection.
@@ -38,13 +72,17 @@ From the repository root:
 
 ```powershell
 rtk proxy uv run --locked python -m unittest discover -s tests -v
-rtk proxy uv run --locked python scripts/check_evidence.py APPLICATION/cv.yaml APPLICATION/evidence.json
-rtk proxy uv run --locked python scripts/render_cv.py APPLICATION/cv.yaml APPLICATION/render-v1
-rtk proxy uv run --locked python scripts/review_pdf.py APPLICATION/render-v1/cv.pdf --output APPLICATION/review-v1
+rtk proxy uv run --locked python scripts/application_artifacts.py allocate .local/applications "Example Company" "Data Analyst"
+rtk proxy uv run --locked python scripts/application_artifacts.py revision "APPLICATION" en
+rtk proxy uv run --locked python scripts/check_evidence.py "REVISION/cv.yaml" "REVISION/evidence.json"
+rtk proxy uv run --locked python scripts/render_cv.py "REVISION/cv.yaml" "REVISION/render"
+rtk proxy uv run --locked python scripts/review_pdf.py "REVISION/render/cv.pdf" --output "REVISION/review"
+# Inspect all pages, text and evidence; record actual passed checks in review.json.
+rtk proxy uv run --locked python scripts/application_artifacts.py publish "APPLICATION" "REVISION" en
 rtk proxy uv run --locked python scripts/package_skill.py .local/dist/resume-tailor-skill.zip
 ```
 
-Application rendering and review directories must be new. Inspect every page image and extracted text; review semantic support for each claim manually. The evidence checker verifies coverage and source excerpts, not the truth or adequacy of the wording. Tests and evaluation fixtures live in the development repository and are excluded from installation packages.
+Replace APPLICATION with the allocated root and REVISION with its supporting/revisions/en-v1 path; prepare cv.yaml, evidence.json and sources/ there before checking. Repeat only requested languages with fresh revisions. Application rendering and review directories must be new. If the sandbox cannot write the default uv cache, add `--cache-dir .uv-cache` immediately after `uv`. Windows junction regression tests may need elevated execution. Inspect every page image and extracted text; review semantic support for each claim manually. The evidence checker verifies coverage and source excerpts, not the truth or adequacy of the wording. Tests and evaluation fixtures live in the development repository and are excluded from installation packages.
 
 See evals/acceptance.md and evals/results.md for scenarios, observed verification, and pending real-user acceptance. Windows Codex may need approved elevated execution for Typst rendering. A failed render is recorded as failure, never as a successful final CV.
 

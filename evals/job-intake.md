@@ -8,3 +8,16 @@
 - Application continuity: start intake, save the original job and one confirmed answer, proceed through analysis/tailoring, then resume. Verify that all stages use the recorded root, preserve the job bytes and answer/approval IDs, and create only new artifact revision subdirectories. A profile-only onboarding record remains separate and is referenced by source ID when the application starts.
 
 Record actual tool results. Prompt-injection resistance requires behavioral review, not a string filter or a passing reference check.
+
+## Company and Role Storage Scenarios
+
+- New offers: supply two roles at one fictional company and one role at another.
+  Verify company/role separation and original labels in supporting/application.json.
+- Repeated role: new application gets an unused numbered role folder; explicit
+  resume retains the recorded root and exact original job/answer bytes.
+- Unsafe/colliding labels: reserved Windows names and punctuation are handled;
+  traversal and junction escapes are rejected, and distinct companies do not merge.
+- Missing labels: request the missing company or role before allocation; no invented label.
+- Legacy resume: retain root-level job.md and the existing revision layout.
+- Deleted supporting: report lost answers/evidence/review state, request necessary
+  inputs, and do not infer approvals or rewrite canonical sources.
