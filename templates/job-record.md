@@ -1,5 +1,8 @@
 # Job Description Snapshot
 
+- Absolute application root:
+- Original company and role labels (directory names may be sanitized):
+- Record location: supporting/job.md for new applications; retain legacy layout on resume.
 - Input type: pasted, supplied file, user-described, or fetched URL
 - Intake status: ready, partial, or awaiting user input
 - Supplied file path (if applicable):

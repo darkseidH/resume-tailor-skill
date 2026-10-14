@@ -2,13 +2,15 @@
 
 ## Create the Record from the Current Input
 
-Allocate one unused private application directory and record its absolute path in the application notes. Keep this same root through all later stages. On an explicit resume, load the recorded root and its existing job snapshot instead of allocating a replacement; do not reuse an earlier offer for a different application. The agent creates the application's job.md using [the job record template](../templates/job-record.md). The user does not need to prepare a Markdown job file. Use only the offer supplied for this application: fetched posting content, pasted text, an explicitly supplied job file, or details stated by the user.
+Allocate one unused company/role directory beneath the mapped private application output directory using `scripts/application_artifacts.py allocate OUTPUT "Company" "Role"`. Obtain missing company/role labels from the user first. The helper sanitizes names, separates collisions and repeat applications, and records the absolute root and original labels in `supporting/application.json`. Keep this root through all later stages. The agent creates `supporting/job.md` using [the job record template](../templates/job-record.md); the user does not need to prepare a Markdown job file. Use only the offer supplied for this application: fetched posting content, pasted text, an explicitly supplied job file, or details stated by the user.
+
+On explicit resume, run `scripts/application_artifacts.py resume ROOT` and load the existing job, answers, and decisions. A legacy application with root-level job.md keeps its existing layout; do not migrate it. Missing supporting state requires recovery or clarification before dependent work, not invented history. Never reuse an earlier offer for a different application. See [the storage contract](data-contracts.md#application-record-contract).
 
 Files under evals/fixtures/ belong to explicit test runs. Never read them as fallback content for a real application, reuse a previous application's offer, or infer the employer's requirements from the candidate's profile. A failed fetch leaves intake waiting for user input; it does not authorize creating a fictional offer.
 
 ## Pasted Text
 
-Preserve the original text in the private application's job.md with source type `pasted`, receipt date, and completeness notes. Do not synthesize missing responsibilities, employer details or eligibility conditions. Ask for missing sections only when they affect analysis.
+Preserve the original text in the private application's supporting/job.md with source type `pasted`, receipt date, and completeness notes. Do not synthesize missing responsibilities, employer details or eligibility conditions. Ask for missing sections only when they affect analysis.
 
 For an explicitly supplied job file, read that file and record its path as the source. For informal user-described details, preserve the user's words separately from any organized summary and label the source `user-described`. Ask one focused question about consequential omissions. A description reconstructed from user statements is not a verified employer posting; keep unstated criteria unknown.
 

@@ -34,7 +34,13 @@ Before a canonical update, present the target path and section, existing wording
 
 ## Application Record Contract
 
-Allocate one unused private directory during job intake for each application. Reuse that root throughout analysis, quantification, tailoring, and delivery; preserve its job snapshot, answers, approval references, and evidence. Store artifact revisions in new subdirectories rather than moving the application to a new root. Resume the recorded application explicitly, and obtain authorization before overwriting any retained file. Keep:
+Allocate `<mapped-output>/<company>/<role>/` during intake with `scripts/application_artifacts.py allocate`. Names are readable Windows-safe labels, not supplied paths. Different labels that sanitize alike and repeated applications receive unused numbered folders; company directories are reused only when their recorded original company matches. Ask for missing labels. Record the absolute application root and labels in `supporting/application.json`.
+
+Reuse this root throughout analysis, quantification, tailoring, and delivery. Only reviewed final PDFs (`resume-en.pdf`, `resume-fr.pdf`, then unused `-v2` names) and `supporting/` belong directly in the role folder. All other artifacts live inside supporting. Save shared job.md, answers.md, match.md, tailoring.md, verification.md and approval records there. Keep each language revision's cv.yaml, evidence.json and sources/ together in `supporting/revisions/en-v1/` or `fr-v1/`; render/ and review/ also live inside that revision. Each ledger's source paths remain relative to its own directory.
+
+Generate only requested languages. Allocate a fresh revision with `scripts/application_artifacts.py revision ROOT en` (or fr). Retain prior revisions and final PDFs. On explicit resume, load the recorded root, original job snapshot, answers and decisions; do not allocate a replacement. Legacy root-level job.md applications retain their original layout. If supporting is missing, report the loss and recover required inputs before continuing; do not infer saved answers or review results from a PDF.
+
+Deletion of supporting is a user action, never automatic. It removes editable YAML, evidence and resume state but leaves delivered PDFs readable. Keep canonical profile sources outside supporting. Keep:
 
 - Original job text, source URL when supplied, retrieval date for URLs, and completeness notes.
 - Requirements with IDs, required/preferred status, and evidence-based assessments.
