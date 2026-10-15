@@ -69,5 +69,16 @@ continuation without indexing.
 
 ## Distribution
 
-Pending fresh archive extraction and packaged helper verification; record actual
-results here after completion.
+- Built `.local/dist/resume-tailor-artifact-storage-v1.zip` using the existing
+  packaging allowlist; no packaging implementation change was needed.
+- All 27 archived resources match current source bytes. The new storage helper
+  is included; private outputs, plans, tests, evaluations and caches are excluded.
+- Extracted to `.local/artifact-storage-package-1/extracted/resume-tailor-skill/`.
+  The system skill validator returned `Skill is valid!`.
+- Executed the extracted allocation, revision, evidence, render, review and publish
+  CLIs using the pinned project interpreter. English/French each rendered one page;
+  both images and extracted texts were inspected and claims checked against the
+  same fictional inputs before approval was recorded.
+- Packaged final PDFs matched their reviewed bytes. A disposable supporting
+  deletion check again retained readable, unchanged PDFs and the canonical source.
+- Global installation and real-user acceptance were not performed or claimed.

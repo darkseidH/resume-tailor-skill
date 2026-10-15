@@ -115,3 +115,14 @@ Detailed machine results: `.local/distribution-check-v6-65xpqwx2/verification.js
 A separate fresh-context review agent returned **no actionable findings** and approved shipping the scoped remediation. It independently ran all 21 tests, verified all 26 archive resources against current source and the recorded SHA256, inspected all four packaged page images and complete texts, reran both extracted evidence checks, and reviewed actual approval/persistence records.
 
 Full report: [implementation-review.md](implementation-review.md). Tasks 9–16 are implemented and verified. Original human checkpoint reviews and the real-user application acceptance remain pending; no global installation or fresh dependency provisioning was performed.
+
+## Company and Role Artifact Storage (2026-10-14)
+
+AS1–AS7 completed. See [artifact-storage.md](artifact-storage.md) for actual observations.
+35 tests pass (no skips with elevated Windows junction tests). English-only,
+French-only and bilingual source applications and both extracted-package languages
+were rendered, factually reviewed against fictional sources, visually inspected on
+every page, text checked and delivered with identical bytes. Supporting cleanup was
+verified on disposable copies only. New archive: `.local/dist/resume-tailor-artifact-storage-v1.zip`,
+27 resources matching source, private files excluded, system skill validation passed.
+Existing real-user acceptance and human reviews remain pending; no global install.
