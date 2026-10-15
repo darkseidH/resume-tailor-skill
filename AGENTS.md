@@ -32,3 +32,11 @@ Git history is unavailable in this checkout. Use concise imperative commit subje
 ## Privacy & Agent Boundaries
 
 Use fictional data in committed fixtures and examples. Keep personal sources, outputs, and secrets out of distribution archives. Preserve evidence for every substantive CV claim. Canonical profile edits require approval of the exact proposed changes; follow `references/profile-updates.md`.
+
+# Codebase Exploration & Token Efficiency Rules
+Always use the `codebase-memory` MCP tools BEFORE reading full files or running broad grep searches:
+1. Run `list_projects` or `index_status` first to confirm the current repository graph is active.
+2. For structural questions, use `get_architecture` to map modules, entry points, and routes.
+3. To locate functions, classes, or routes, call `search_graph` or `trace_path` (for callers/callees).
+4. Fetch exact function implementations using `get_code_snippet` with the symbol's qualified name instead of reading entire source files.
+5. Before modifying shared code, run `trace_path` for impact analysis.
