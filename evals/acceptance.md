@@ -27,6 +27,8 @@ Use fixtures/multi-role-profile.md as raw input for a fresh behavioral applicati
 
 Run the scenarios in onboarding.md, job-analysis.md, tailoring.md, profile-updates.md and job-intake.md. Record actual observations, especially failure paths. An independent evaluator should receive the skill and raw synthetic inputs without expected answers when such evaluation is available.
 
+For page balance, render a multi-page CV with a large lower-page gap followed by substantive content. Follow references/output-review.md#page-balance to adjust grouping or section order, then inspect all pages and extracted text. Pass when avoidable gaps are resolved with complete content, readable typography, intact chronology and no stranded headings or awkward splits. A naturally shorter final page is acceptable. Exercise both English and French; record any language not checked.
+
 ## Real User Acceptance
 
 - [x] Mapped user sources are read and uncertainties surfaced.

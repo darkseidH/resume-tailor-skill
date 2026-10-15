@@ -25,6 +25,14 @@ Run `uv run --locked python scripts/review_pdf.py path/to/cv.pdf --output path/t
 
 Read extracted text for missing content, accented characters, dates, duplicated or garbled tokens, and reading order. Compare substantive content with the YAML. A single-page synthetic example does not validate a multi-page real CV: review every page for each application.
 
+### Page Balance
+
+Inspect adjacent pages together before passing visual review. A large unused lower area on an earlier page, especially page one, needs adjustment when substantive content on the next page could fit there. Distinguish avoidable gaps from normal margins and whitespace on the final page.
+
+First check forced page breaks and section/entry grouping. Try moving a complete short section, such as an academic project or education, into the available space; choose the order for the actual CV rather than enforcing one universal section order. Keep role chronology, employer-linked projects, heading/content associations and the user's requested order intact. Adjust spacing only where readability is preserved. Retain substantive content and readable font sizes instead of deleting material, adding filler or forcing one page.
+
+Rerender into a fresh revision and inspect every page again: filling page one must not introduce clipping, stranded headings or awkward splits elsewhere. Recheck extracted text and evidence references after reordering. Record the layout adjustment and any unavoidable gap in verification.md; pass visual review only after avoidable large gaps are resolved.
+
 ## Delivery Record
 
 On an explicitly resumed legacy application, retain its recorded artifact layout and deliver the reviewed PDF/YAML from their original revision paths. The new company/role allocation and publish helper apply to new-layout applications only; do not migrate or relocate retained legacy outputs.
