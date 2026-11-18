@@ -22,8 +22,8 @@ The mapped application output directory contains company folders, then role fold
 applications/
   Example Company/
     Data Analyst/
-      resume-en.pdf
-      resume-fr.pdf
+      Alex_Example_Example_Company_English.pdf
+      Alex_Example_Example_Company_French.pdf
       supporting/
         application.json
         job.md
@@ -38,7 +38,7 @@ applications/
 
 Only requested languages are generated. Finished PDFs appear after factual,
 visual and text review. Further deliveries use unused names such as
-resume-en-v2.pdf; a separate application to the same role gets a numbered role
+Alex_Example_Example_Company_English-v2.pdf; a separate application to the same role gets a numbered role
 folder. Explicit resume reuses the recorded root, and older applications retain
 their original layout.
 

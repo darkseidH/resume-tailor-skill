@@ -8,6 +8,8 @@ import shutil
 import sys
 from pathlib import Path, PureWindowsPath
 
+import yaml
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from scripts.check_evidence import check
 
@@ -201,9 +203,21 @@ def publish(root: Path, rev: Path, language: str) -> Path:
         raise ValueError('Missing factual approval notes')
     if approval.get('output') != output or approval.get('evidence') != evidence:
         raise ValueError('Factual review inputs changed; start a fresh review')
+    yaml_bytes = source.read_bytes()
+    if hashlib.sha256(yaml_bytes).hexdigest() != output['yaml_sha256']:
+        raise ValueError('Reviewed YAML changed during delivery; review again')
+    candidate = yaml.safe_load(yaml_bytes)['cv'].get('name')
+    application_path = contained(root / 'supporting/application.json', root)
+    company = json.loads(application_path.read_text(encoding='utf-8')).get('company')
+    if not isinstance(candidate, str) or not isinstance(company, str):
+        raise ValueError('Publication requires a candidate name and recorded company')
+    candidate_name = '_'.join(label(candidate).split())
+    company_name = '_'.join(label(company).split())
+    language_name = {'en': 'English', 'fr': 'French'}[language]
+    stem = f'{candidate_name}_{company_name}_{language_name}'
     index = 1
     while True:
-        name = f'resume-{language}' + ('' if index == 1 else f'-v{index}') + '.pdf'
+        name = stem + ('' if index == 1 else f'-v{index}') + '.pdf'
         target = contained(root / name, root)
         try:
             destination = target.open('xb')

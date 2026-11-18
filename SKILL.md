@@ -16,6 +16,7 @@ description: Build an evidence-based professional profile from Markdown notes an
 7. Finalize the CV using [tailoring](references/tailoring.md): apply summary, experience layout, action/context/result, complete-language, and employer-linked project rules. Reuse the application root, record claim-to-evidence references, and re-present materially changed accepted claims.
 8. Use [rendering](references/rendering.md) to validate and generate each requested language's PDF and editable YAML in a fresh supporting/revisions/ directory. Complete [output review](references/output-review.md), including page balance, for every page and every substantive claim before delivery. Report unavailable checks explicitly.
 9. At delivery, report applied-and-verified, declined, or pending reusable profile changes. An application answer log is not a canonical profile update.
+10. Publish each reviewed resume as `FirstName_LastName_Company_Language.pdf` using the [final publication step](references/output-review.md#final-publication). Verify the published names before sharing the links.
 
 Load references at the relevant stage rather than reading every reference for every request. A profile-only request can end after onboarding; an existing approved profile can proceed directly to job intake. Resume a partially completed application from its saved evidence, answers and revision rather than discarding usable work.
 
