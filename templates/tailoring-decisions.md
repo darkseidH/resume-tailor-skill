@@ -42,3 +42,8 @@ State what remains unknown, which unsupported claims were omitted, and practical
 ## Verification
 
 Link each reviewed PDF/YAML revision and supporting/verification.md. Record user review status without assuming approval. Explain that manual supporting deletion removes editable sources, evidence and resume state while preserving delivered PDFs.
+
+## Priority evidence placement
+
+| Requirement | Fact | First page and section | Printed phrase | Placement decision |
+|---|---|---|---|---|

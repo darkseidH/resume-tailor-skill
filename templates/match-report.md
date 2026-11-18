@@ -21,6 +21,10 @@ Separate confirmed absence from missing information. State the next focused ques
 
 Describe each evidence-backed risk and an honest way to address it. Do not promise interviews or present future learning as existing experience.
 
+## Provisional bullet clarification
+
+If one answer could materially improve a high-priority bullet, record the current wording, the question, and the supported change or fallback. Keep the answer in the application answer log.
+
 ## Review Status
 
 Record what the user reviewed, unresolved issues, and whether a truthful draft can proceed.

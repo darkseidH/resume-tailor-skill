@@ -33,14 +33,36 @@ First check forced page breaks and section/entry grouping. Try moving a complete
 
 Rerender into a fresh revision and inspect every page again: filling page one must not introduce clipping, stranded headings or awkward splits elsewhere. Recheck extracted text and evidence references after reordering. Record the layout adjustment and any unavoidable gap in verification.md; pass visual review only after avoidable large gaps are resolved.
 
+## Evidence on page one
+
+From the match report, choose up to three consequential requirements rated strong. Prioritize mandatory criteria and direct contributions. Record the requirement ID, fact ID, first visible page and section, and actual printed phrase in the tailoring record. For a requirement about demonstrated work, find the contribution itself. If it is buried, consider reordering highlights or clarifying an already supported summary. Preserve chronology, provenance, substantive roles, and readable layout. If strong evidence belongs on a later page, record the reason. Review every changed page and its extracted text in the new revision.
+
+## English and French consistency
+
+When delivering both languages, record the exact revision IDs in verification.md. Compare the two versions against shared source facts for employers, dates, credentials, ownership, environments, quantities, units, timeframe, and qualifiers. Check material omissions. Allow idiomatic wording and ordering that preserve meaning. Resolve and record discrepancies before delivering the pair. Rerender an edited version, repeat its affected checks, and compare the resulting pair again. A single-language delivery uses the regular review.
+
 ## Delivery Record
 
 On an explicitly resumed legacy application, retain its recorded artifact layout and deliver the reviewed PDF/YAML from their original revision paths. The new company/role allocation and publish helper apply to new-layout applications only; do not migrate or relocate retained legacy outputs.
 
 Write supporting/verification.md with commands and actual results, the PDF and YAML revision reviewed, page count, images inspected, factual findings, and unresolved limitations. Mark each check passed, failed, or unavailable. After a content or design change, rerender into a new directory and repeat affected checks.
 
-After inspecting every image and the extracted text and comparing all claims to evidence, update that revision's review/review.json: set visual_review, factual_review and text_review to passed only for checks actually completed, and write review_notes describing actual findings and any limitations. Keep pending, failed or unavailable checks honest. Preserve the PDF/YAML hashes created by review_pdf.py; changed files require a fresh review, not replacement hashes in an old approval record. The editable YAML reviewed and delivered is render/cv.yaml, the exact normalized renderer input.
+Inspect every image and the extracted text. Set `visual_review` and `text_review` in `review/review.json` to passed only when those checks pass, and record actual findings in `review_notes`. Keep the renderer's PDF and YAML hashes. Deliver the normalized `render/cv.yaml`.
 
-Run `rtk proxy uv run --locked python scripts/application_artifacts.py publish APPLICATION APPLICATION/supporting/revisions/en-v1 en` (or the corresponding fr revision). This checks review status, PDF/YAML identity, review artifacts, and evidence coverage, then copies the reviewed PDF to the role folder without overwriting older PDFs. It does not independently establish semantic truth or visual quality. A failed or unavailable required check leaves the PDF under supporting/ and must not be presented as final.
+For a new-layout revision, capture the factual review inputs before comparing claims to their sources.
+
+```powershell
+rtk proxy uv run --locked python scripts/application_artifacts.py factual-review "APPLICATION" "REVISION"
+```
+
+Inspect the normalized YAML and each supporting snapshot. After verifying every claim, supply the printed inputs path and describe the actual factual findings.
+
+```powershell
+rtk proxy uv run --locked python scripts/application_artifacts.py factual-review "APPLICATION" "REVISION" --inputs "PRINTED_INPUTS_JSON" --approve "FACTUAL_FINDINGS"
+```
+
+A source-only correction requires a new factual review attempt. Retain earlier attempts and reuse visual and text findings only when their reviewed PDF, YAML, page images and extracted text remain valid. Check the review artifacts again if their identity is uncertain. New-layout reviews created before factual input capture require this review before another publication. A manually edited status cannot satisfy factual sign-off.
+
+Run `rtk proxy uv run --locked python scripts/application_artifacts.py publish APPLICATION APPLICATION/supporting/revisions/en-v1 en` (or the corresponding fr revision). This checks review status, PDF/YAML identity, review artifact identity, factual approval, and evidence coverage, then copies the reviewed PDF to the role folder without overwriting older PDFs. It does not independently establish semantic truth or visual quality. A failed or unavailable required check leaves the PDF under supporting/ and must not be presented as final.
 
 Deliver links to each finished resume-en.pdf/resume-fr.pdf (or numbered revision) and its supporting/revisions/.../render/cv.yaml, with match findings, gaps/actions and tailoring explanation. Only final PDFs and supporting/ belong directly in the role folder. Explain that deleting supporting/ removes editable files, evidence and resume state while keeping finished PDFs readable. The agent never deletes it automatically. Report incomplete checks plainly. A real application still requires the user's review before submission, which remains outside scope.
