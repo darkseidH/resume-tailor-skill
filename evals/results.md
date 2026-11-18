@@ -126,3 +126,11 @@ every page, text checked and delivered with identical bytes. Supporting cleanup 
 verified on disposable copies only. New archive: `.local/dist/resume-tailor-artifact-storage-v1.zip`,
 27 resources matching source, private files excluded, system skill validation passed.
 Existing real-user acceptance and human reviews remain pending; no global install.
+
+## Workflow and publication changes — 2026-11-18
+
+- Windows unittest run passed all 43 tests, including a real in-tree junction, a symlink, stale ledger and source revisions, and source-only factual re-review.
+- A fresh distribution contained the same 27 installed resource paths as the pre-change baseline. The fictional candidate-note regression test verifies that an unlisted Markdown file under templates is excluded.
+- The existing curated bilingual backend fixture rendered as one page per language. Both image and extracted-text reviews located the PostgreSQL endpoint and team contribution on page one. Employer, role dates, staging versus production ownership, supported credential wording and spoken languages agreed. English additionally displays the derived duration. The PDF text extractor emits icon glyphs next to contact details, with the email and location readable. Both versions passed the new factual-review CLI and publication. Published bytes matched the reviewed PDFs.
+- The frozen two-posting protocol and fictional inputs are in acceptance.md and fixtures. The pre-change skill package was preserved privately before edits. The sandboxed independent Codex CLI probe could not access its model endpoint. An escalated retry connected far enough to load model metadata but the local CLI could not decode the returned catalog and produced no evaluation response. No blind judgments or model-generated comparison results were collected.
+- The render check used a curated fixture. The fresh dialogue branches, multi-page placement case and negative translation examples remain pending under the active task checklist.

@@ -40,3 +40,11 @@ For page balance, render a multi-page CV with a large lower-page gap followed by
 - [ ] The user reviews the resulting application.
 
 Human-dependent items must remain pending until they actually occur. Implementation completion is separate from the final real-application acceptance.
+
+## Blind tailoring comparison
+
+Use fixtures/comparison-profile.md and exactly one comparison posting per independent session. A test operator answers questions using fixtures/comparison-answers.md. Give generation sessions only the installed skill variant, selected posting, profile and replies actually elicited. Keep this protocol and its expected evidence outside their context. Use a clean workspace and the same model settings and interaction budget throughout. Run baseline and updated skill copies for both jobs, requesting English for backend and both languages for reporting.
+
+For each posting, randomly order the CVs and redact file paths or labels that reveal the skill version. Give the reviewer the offer, source notes and exact answers for each anonymous application. Record page-one evidence, questions asked, omissions, semantic support and preferences or ties before revealing the version labels. Read every page and check the English/French facts. Record version, model, visible evidence and limitations in results.md.
+
+Evaluator only. For backend, look for the personal endpoint contribution with Python, SQL and PostgreSQL, preserving team and staging boundaries. For reporting, look for the Power BI dashboard, SQL source, Excel reconciliation and the audience or use if elicited. An unanswered audience question does not authorize an invented audience. Both roles must preserve chronology, credentials and provenance. An unsupported claim or material bilingual discrepancy fails even when the layout is preferred. Report results per posting and leave comparative improvement unverified when a matched blind run is unavailable.
