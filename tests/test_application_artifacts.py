@@ -8,7 +8,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.application_artifacts import allocate, resume, revision, publish
+from scripts.application_artifacts import allocate, resume, revision, publish, factual_review
 
 
 class ApplicationArtifactTests(unittest.TestCase):
@@ -104,6 +104,8 @@ class ApplicationArtifactTests(unittest.TestCase):
         (review / 'extracted.txt').write_text('Alex', encoding='utf-8')
         (review / 'page-1.png').write_bytes(b'unit-test-image')
         (review / 'review.json').write_text(json.dumps(record), encoding='utf-8')
+        inputs = factual_review(root, rev)
+        factual_review(root, rev, 'Checked the fictional claim against its snapshot.', inputs=inputs)
         return root, rev, record
 
     def test_publication_preserves_bytes_revisions_and_survives_cleanup(self):
@@ -119,7 +121,7 @@ class ApplicationArtifactTests(unittest.TestCase):
 
     def test_incomplete_or_stale_review_never_publishes(self):
         root, rev, record = self.reviewed_revision()
-        for field, value in [('visual_review', 'pending'), ('factual_review', 'failed'), ('text_review', 'unavailable'), ('text_extracted', False), ('pdf_sha256', 'stale'), ('yaml_sha256', 'stale'), ('pdf', str(root / 'other.pdf')), ('pages', 0), ('review_notes', '')]:
+        for field, value in [('visual_review', 'pending'), ('text_review', 'unavailable'), ('text_extracted', False), ('pdf_sha256', 'stale'), ('yaml_sha256', 'stale'), ('pdf', str(root / 'other.pdf')), ('pages', 0), ('review_notes', '')]:
             with self.subTest(field=field):
                 changed = {**record, field: value}
                 (rev / 'review/review.json').write_text(json.dumps(changed), encoding='utf-8')
@@ -138,6 +140,53 @@ class ApplicationArtifactTests(unittest.TestCase):
         with self.assertRaises(OSError):
             publish(root, rev, 'en')
         self.assertFalse((root / 'resume-en.pdf').exists())
+
+    def test_snapshot_edit_requires_a_fresh_factual_review(self):
+        root, rev, _ = self.reviewed_revision()
+        snapshot = rev / 'source.md'
+        snapshot.write_text('My name is Alex. Corrected context.', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            publish(root, rev, 'en')
+        self.assertFalse((root / 'resume-en.pdf').exists())
+        inputs = factual_review(root, rev)
+        snapshot.write_text('My name is Alex. Edited again.', encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            factual_review(root, rev, 'Reviewed earlier content.', inputs=inputs)
+        inputs = factual_review(root, rev)
+        factual_review(root, rev, 'Reviewed corrected content.', inputs=inputs)
+        self.assertTrue(publish(root, rev, 'en').is_file())
+        self.assertTrue((rev / 'review/factual-review/approval.json').is_file())
+
+    def test_ledger_edit_invalidates_approval(self):
+        root, rev, _ = self.reviewed_revision()
+        path = rev / 'evidence.json'
+        ledger = json.loads(path.read_text(encoding='utf-8'))
+        ledger['facts']['other'] = ledger['facts']['f']
+        ledger['claims']['/cv/name'] = ['other']
+        path.write_text(json.dumps(ledger), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            publish(root, rev, 'en')
+
+    def test_legacy_status_without_bound_approval_cannot_publish(self):
+        root, rev, _ = self.reviewed_revision()
+        shutil.rmtree(rev / 'review/factual-review')
+        with self.assertRaisesRegex(ValueError, 'Start and complete factual review'):
+            publish(root, rev, 'en')
+
+    def test_new_attempt_cannot_approve_an_older_capture(self):
+        root, rev, _ = self.reviewed_revision()
+        first = factual_review(root, rev)
+        factual_review(root, rev)
+        with self.assertRaisesRegex(ValueError, 'current factual review'):
+            factual_review(root, rev, 'Older review.', inputs=first)
+        with self.assertRaisesRegex(ValueError, 'Complete factual review'):
+            publish(root, rev, 'en')
+
+    def test_changed_review_artifact_invalidates_publication(self):
+        root, rev, _ = self.reviewed_revision()
+        (rev / 'review/page-1.png').write_bytes(b'replaced review image')
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            publish(root, rev, 'en')
 
     def test_copy_failure_leaves_no_partial_finished_pdf(self):
         root, rev, _ = self.reviewed_revision()

@@ -100,30 +100,107 @@ def revision(root: Path, language: str) -> Path:
             index += 1
 
 
+def reviewed_output(root: Path, rev: Path):
+    pdf = contained(rev / 'render/cv.pdf', root)
+    source = contained(rev / 'render/cv.yaml', root)
+    review_path = contained(rev / 'review/review.json', root)
+    record = json.loads(review_path.read_text(encoding='utf-8'))
+    if not isinstance(record, dict) or any(record.get(key) != 'passed' for key in ('visual_review', 'text_review')):
+        raise ValueError('Visual and extracted-text review must both pass')
+    if record.get('text_extracted') is not True or type(record.get('pages')) is not int or record['pages'] < 1 or not isinstance(record.get('review_notes'), str) or not record['review_notes'].strip():
+        raise ValueError('Record page count, extracted text, and actual review notes')
+    pdf_bytes = pdf.read_bytes()
+    if not pdf_bytes.startswith(b'%PDF-') or record.get('pdf') != str(pdf) or record.get('pdf_sha256') != hashlib.sha256(pdf_bytes).hexdigest() or record.get('yaml_sha256') != hashlib.sha256(source.read_bytes()).hexdigest():
+        raise ValueError('Reviewed PDF or YAML is missing, mismatched, or changed; review again')
+    artifacts = [rev / 'review/extracted.txt']
+    artifacts.extend(rev / f'review/page-{index}.png' for index in range(1, record['pages'] + 1))
+    if not contained(artifacts[0], root).read_text(encoding='utf-8').strip():
+        raise ValueError('Missing extracted text')
+    return pdf_bytes, source, {
+        'pdf_sha256': record['pdf_sha256'],
+        'yaml_sha256': record['yaml_sha256'],
+        'artifacts': {path.name: digest(contained(path, root)) for path in artifacts},
+    }
+
+
+def digest(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def factual_inputs(root: Path, rev: Path, source: Path) -> dict:
+    ledger = contained(rev / 'evidence.json', root)
+    raw = ledger.read_bytes()
+    data = json.loads(raw)
+    errors = check(source, ledger)
+    if errors:
+        raise ValueError('Evidence check failed: ' + '; '.join(errors))
+    snapshots = {}
+    for fact_ids in data['claims'].values():
+        for fact_id in fact_ids:
+            name = data['sources'][data['facts'][fact_id]['source']]
+            path = contained(rev / name, rev)
+            key = path.relative_to(rev).as_posix()
+            if key not in snapshots:
+                snapshots[key] = digest(path)
+    if raw != ledger.read_bytes():
+        raise ValueError('Evidence changed during validation')
+    return {'ledger_sha256': hashlib.sha256(raw).hexdigest(), 'snapshots': snapshots}
+
+
+def factual_review(root: Path, rev: Path, notes: str | None = None, *, inputs: Path | None = None) -> Path:
+    root = resume(root)
+    rev = contained(rev, root / 'supporting/revisions')
+    parent = contained(rev / 'review', root)
+    _, source, output = reviewed_output(root, rev)
+    current = {'output': output, 'evidence': factual_inputs(root, rev, source)}
+    if notes is None:
+        attempt = fresh(parent, 'factual-review')
+        path = attempt / 'inputs.json'
+        path.write_text(json.dumps(current, indent=2), encoding='utf-8')
+        return path
+    if not notes.strip():
+        raise ValueError('Record factual review notes before approving')
+    attempt = latest_factual_review(parent)
+    expected = contained(attempt / 'inputs.json', parent)
+    if inputs is None or contained(inputs, parent) != expected:
+        raise ValueError('Supply the inputs.json path from the current factual review')
+    previous = json.loads(expected.read_text(encoding='utf-8'))
+    if current != previous:
+        raise ValueError('Factual review inputs changed; start a fresh review')
+    approval = contained(attempt / 'approval.json', parent)
+    with approval.open('x', encoding='utf-8') as file:
+        json.dump({**current, 'notes': notes}, file, indent=2)
+    return approval
+
+
+def latest_factual_review(parent: Path) -> Path:
+    attempts = [
+        path for path in parent.glob('factual-review*')
+        if re.fullmatch(r'factual-review(?:-[1-9][0-9]*)?', path.name)
+    ]
+    if not attempts:
+        raise ValueError('Start and complete factual review before publication')
+    return contained(max(attempts, key=lambda p: int(p.name.removeprefix('factual-review-')) if p.name != 'factual-review' else 1), parent)
+
+
 def publish(root: Path, rev: Path, language: str) -> Path:
     root = resume(root)
     rev = contained(rev, root / 'supporting/revisions')
     if language not in {'en', 'fr'} or not re.fullmatch(f'{language}-v[1-9][0-9]*', rev.name):
         raise ValueError('Choose the matching en or fr revision')
     pdf = contained(rev / 'render/cv.pdf', root)
-    source = contained(rev / 'render/cv.yaml', root)
-    review_path = contained(rev / 'review/review.json', root)
-    record = json.loads(review_path.read_text(encoding='utf-8'))
-    if not isinstance(record, dict) or any(record.get(key) != 'passed' for key in ('visual_review', 'factual_review', 'text_review')):
-        raise ValueError('Factual, visual, and extracted-text review must all pass')
-    if record.get('text_extracted') is not True or type(record.get('pages')) is not int or record['pages'] < 1 or not isinstance(record.get('review_notes'), str) or not record['review_notes'].strip():
-        raise ValueError('Record page count, extracted text, and actual review notes')
-    pdf_bytes = pdf.read_bytes()
-    if not pdf_bytes.startswith(b'%PDF-') or record.get('pdf') != str(pdf) or record.get('pdf_sha256') != hashlib.sha256(pdf_bytes).hexdigest() or record.get('yaml_sha256') != hashlib.sha256(source.read_bytes()).hexdigest():
-        raise ValueError('Reviewed PDF or YAML is missing, mismatched, or changed; review again')
-    for index in range(1, record['pages'] + 1):
-        if not contained(rev / f'review/page-{index}.png', root).is_file():
-            raise ValueError('Missing reviewed page image')
-    if not contained(rev / 'review/extracted.txt', root).read_text(encoding='utf-8').strip():
-        raise ValueError('Missing extracted text')
-    errors = check(source, contained(rev / 'evidence.json', root))
-    if errors:
-        raise ValueError('Evidence check failed: ' + '; '.join(errors))
+    pdf_bytes, source, output = reviewed_output(root, rev)
+    evidence = factual_inputs(root, rev, source)
+    parent = contained(rev / 'review', root)
+    attempt = latest_factual_review(parent)
+    path = contained(attempt / 'approval.json', parent)
+    if not path.is_file():
+        raise ValueError('Complete factual review before publication')
+    approval = json.loads(path.read_text(encoding='utf-8'))
+    if not isinstance(approval, dict) or not str(approval.get('notes', '')).strip():
+        raise ValueError('Missing factual approval notes')
+    if approval.get('output') != output or approval.get('evidence') != evidence:
+        raise ValueError('Factual review inputs changed; start a fresh review')
     index = 1
     while True:
         name = f'resume-{language}' + ('' if index == 1 else f'-v{index}') + '.pdf'
@@ -156,6 +233,11 @@ def main():
     rev = commands.add_parser('revision')
     rev.add_argument('root', type=Path)
     rev.add_argument('language', choices=('en', 'fr'))
+    fact = commands.add_parser('factual-review')
+    fact.add_argument('root', type=Path)
+    fact.add_argument('revision', type=Path)
+    fact.add_argument('--approve', metavar='NOTES')
+    fact.add_argument('--inputs', type=Path)
     final = commands.add_parser('publish')
     final.add_argument('root', type=Path)
     final.add_argument('revision', type=Path)
@@ -168,6 +250,8 @@ def main():
             print(resume(args.root))
         elif args.command == 'revision':
             print(revision(args.root, args.language))
+        elif args.command == 'factual-review':
+            print(factual_review(args.root, args.revision, args.approve, inputs=args.inputs))
         else:
             print(publish(args.root, args.revision, args.language))
     except (OSError, ValueError) as error:

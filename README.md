@@ -78,6 +78,8 @@ rtk proxy uv run --locked python scripts/check_evidence.py "REVISION/cv.yaml" "R
 rtk proxy uv run --locked python scripts/render_cv.py "REVISION/cv.yaml" "REVISION/render"
 rtk proxy uv run --locked python scripts/review_pdf.py "REVISION/render/cv.pdf" --output "REVISION/review"
 # Inspect all pages, text and evidence; record actual passed checks in review.json.
+rtk proxy uv run --locked python scripts/application_artifacts.py factual-review "APPLICATION" "REVISION"
+rtk proxy uv run --locked python scripts/application_artifacts.py factual-review "APPLICATION" "REVISION" --inputs "PRINTED_INPUTS_JSON" --approve "FACTUAL_FINDINGS"
 rtk proxy uv run --locked python scripts/application_artifacts.py publish "APPLICATION" "REVISION" en
 rtk proxy uv run --locked python scripts/package_skill.py .local/dist/resume-tailor-skill.zip
 ```
@@ -89,3 +91,5 @@ See evals/acceptance.md and evals/results.md for scenarios, observed verificatio
 ## Boundaries
 
 The initial renderer supports built-in templates without photos. The skill performs qualitative job analysis; it does not guarantee ATS ranking or interviews. Job discovery, submitting applications, outreach, LinkedIn editing and multi-user/web interfaces are outside scope.
+
+The distribution inventory lives in `scripts/package_skill.py`. Update it explicitly when adding an installed skill resource.
